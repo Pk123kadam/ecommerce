@@ -1,0 +1,23 @@
+.custom_nav {
+
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+
+}
+
+@media screen and (min-width:320px) and (max-width:480px) {
+    .custom_nav {
+
+        flex-direction: column;
+        text-align: center;
+        padding-top: 30px;
+
+    }
+
+    .navbar-nav {
+        gap: 0px !important;
+    }
+
+}
