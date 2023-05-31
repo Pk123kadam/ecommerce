@@ -35,8 +35,8 @@ function Addproducts() {
         console.log(data)
         const formData = new FormData();
         formData.append('name', data.name);
-        formData.append('smallPrice', data.smallPrice);
-        formData.append('largePrice', data.largePrice);
+        formData.append('smallPrice', Number(data.smallPrice));
+        formData.append('largePrice', Number(data.largePrice));
 
 
         formData.append('category', data.category);

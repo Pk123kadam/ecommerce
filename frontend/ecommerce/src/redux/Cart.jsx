@@ -11,7 +11,8 @@ import axios from "axios"
 const initialState = {
     cart: [],
     status: '',
-    total: 0
+    total: 0,
+    price: 0
 
 
 
@@ -27,14 +28,16 @@ export const cartSlice = createSlice({
         //         = action.payload
 
         // }
+
     },
     extraReducers: (builder) => {
 
 
         builder.addCase(addcart.fulfilled, (state, action) => {
+            console.log(action.payload)
 
 
-
+            state.price = action.payload.amount
             state.cart.push(action.payload),
                 state.total += Number(action.payload.price)
 
@@ -68,6 +71,48 @@ export const cartSlice = createSlice({
                     state.total = action.payload.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
 
                 }
+
+
+            }).addCase(updatecart.fulfilled, (state, action) => {
+
+
+
+
+
+                if (action.payload.message == "increment") {
+                    console.log(state.price)
+
+                    state.cart.map((e) => {
+                        if (e._id == action.payload.data._id) {
+
+                            return e.quantity += 1,
+                                e.price += Number(state.price)
+
+
+                        }
+                    })
+
+
+                }
+
+
+                if (action.payload.message == "decrement") {
+                    console.log(state.price, "decre")
+
+                    state.cart.map((e) => {
+                        if (e._id == action.payload.data._id) {
+                            return e.quantity -= 1,
+                                e.price -= Number(state.price)
+
+
+                        }
+                    })
+
+
+                }
+                state.total = state.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
+
+
 
 
             })
@@ -113,8 +158,8 @@ export const addcart = createAsyncThunk(
 
         const data = await axios.post("http://localhost:8090/addCart", thunkAPI, { withCredentials: true })
         console.log(data)
-        return data.data.user
-
+        // return data.data.user
+        return thunkAPI
 
 
     }
@@ -125,6 +170,19 @@ export const cartDelete = createAsyncThunk(
         console.log(thunkAPI)
 
         const data = await axios.delete("http://localhost:8090/cartDelete/" + thunkAPI._id, { withCredentials: true })
+        console.log(data)
+        return thunkAPI
+
+
+
+    }
+)
+export const updatecart = createAsyncThunk(
+    'cart/update',
+    async (thunkAPI) => {
+        console.log(thunkAPI)
+
+        const data = await axios.put("http://localhost:8090/updateCart/" + thunkAPI.data._id, thunkAPI, { withCredentials: true })
         console.log(data)
         return thunkAPI
 

@@ -36,11 +36,22 @@ Cartrouter.post("/addCart", vali, async (req, res) => {
     }
 })
 
-Cartrouter.patch("/updateCart/:id", valiToken, async (req, res) => {
+Cartrouter.put("/updateCart/:id", valiToken, async (req, res) => {
     try {
+        const { message, data } = req.body
+        let update;
+        console.log(message, data)
+        if (message == "increment") {
+            update = await Cart.updateOne({ _id: req.params.id }, { $inc: { quantity: +1, price: +data.price } })
 
 
-        const update = await Cart.updateOne({ _id: req.params.id }, { $set: { ...req.body } })
+        }
+        else if (message == "decrement") {
+            update = await Cart.updateOne({ _id: req.params.id }, { $inc: { quantity: -1, price: -data.price } })
+
+
+        }
+
 
 
 

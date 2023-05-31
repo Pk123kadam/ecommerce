@@ -11,9 +11,7 @@ function DisplayProduct({ data, index }) {
 
     const [Variant, setVariant] = useState(data.variants[0])
     const [quantity, setQuantity] = useState(1);
-    console.log(data.prices[0])
-
-
+    console.log(data.prices[0][Variant])
 
 
     return (
@@ -35,6 +33,7 @@ function DisplayProduct({ data, index }) {
                     <h6>{data.description}</h6>
                     <select className='form-control' value={Variant} onChange={(ev) => { setVariant(ev.target.value) }}>
                         {data.variants.map((v) => {
+                            console.log(v)
                             return <option value={v}> {v} </option>
                         })}
                     </select>
@@ -55,7 +54,7 @@ function DisplayProduct({ data, index }) {
 
                 {/* <h6>{e.prices.map((e) => e)}</h6> */}
                 {cart.find((e) => e.id == index + 1) ? <div className='text-center'><button className='btn btn-primary'>ADD TO CART</button></div> : <div className='text-center'><button className='btn btn-primary' onClick={() => {
-                    dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1 }))
+                    dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, amount: data.prices[0][Variant] }))
 
                 }}>ADD TO CART</button></div>}
 
