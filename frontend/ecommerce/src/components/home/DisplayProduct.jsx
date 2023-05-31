@@ -11,6 +11,7 @@ function DisplayProduct({ data, index }) {
 
     const [Variant, setVariant] = useState(data.variants[0])
     const [quantity, setQuantity] = useState(1);
+    console.log(data.prices[0])
 
 
 
@@ -25,10 +26,10 @@ function DisplayProduct({ data, index }) {
 
         <div className='col' >
 
-            <div style={{ padding: "20px", height: "600px" }} className='border'>
+            <div style={{ padding: "20px", height: "600px" }} className='border d-flex flex-column gap-4'>
 
                 <div className='text-center'>
-                    <div className='w-50 mx-auto'><img src={`http://localhost:8090/${data.image}`} className='w-100 h-100'></img></div>
+                    <div className='w-75 mx-auto' style={{ height: "200px" }}><img src={`http://localhost:8090/${data.image}`} className='w-100 h-100'></img></div>
                     <h6>{data.name}</h6>
                     <h6>{data.category}</h6>
                     <h6>{data.description}</h6>

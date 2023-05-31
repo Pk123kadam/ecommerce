@@ -5,11 +5,15 @@ import { useEffect, useState } from 'react';
 import { addburger } from '../../redux/addburger';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { updburger } from '../../redux/addburger';
 
 
-function Addproducts() {
+function Updateproduct() {
+    const { id } = useParams()
 
     const { burger, status } = useSelector((state) => state.burger)
+
 
 
     const dispatch = useDispatch()
@@ -17,6 +21,15 @@ function Addproducts() {
     const [image, setimage] = useState(null);
     const [data, setdata] = useState({});
     const [arrayValues, setArrayValues] = useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:8090/product/" + id, { withCredentials: true }).then((data) => {
+
+            setdata({ ...data.data.user, ...data.data.user.prices[0] })
+            setArrayValues(data.data.user.variants)
+        })
+
+
+    }, [])
 
 
 
@@ -34,7 +47,9 @@ function Addproducts() {
         // })
         console.log(data)
         const formData = new FormData();
-        formData.append('name', data.name);
+        if (data.name) {
+            formData.append('name', data.name);
+        }
         formData.append('smallPrice', data.smallPrice);
         formData.append('largePrice', data.largePrice);
 
@@ -45,28 +60,11 @@ function Addproducts() {
         arrayValues.forEach((value, index) => {
             formData.append(`array[${index}]`, value);
         });
+
+
+
         console.log(formData)
-
-
-        // fetch("http://localhost:8090/addProduct", {
-        //     method: "POST",
-        //     mode: 'cors',
-        //     credentials: 'include',
-
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json'
-        //     },
-        //     body: JSON.stringify(formData)
-
-        // }
-
-        // ).then((data) => {
-        //     return data.json()
-        // }).then((res) => {
-        //     console.log(res)
-        // })
-        dispatch(addburger(formData))
+        dispatch(updburger({ data: formData, id: id }))
 
         setdata({
             name: "",
@@ -98,7 +96,7 @@ function Addproducts() {
 
     return (
         <div className='w-50 mx-auto'>
-            <h1 className='text-center'>ADD PRODUCTS</h1>
+            <h1 className='text-center'>UPDATE PRODUCTS</h1>
             <form onSubmit={handlesubmit} method="post" enctype="multipart/form-data">
                 <span className={status == "added successfully" ? "text-primary" : "text-danger"}>{status}</span>
 
@@ -134,7 +132,7 @@ function Addproducts() {
                     <input type="file" class="form-control" id="exampleInputPassword1" name='image' onChange={handlefilechange} />
                 </div>
 
-                <div className='text-center mb-2'>   <button type="submit" class="btn btn-primary">ADD</button></div>
+                <div className='text-center mb-2'>   <button type="submit" class="btn btn-primary">UPDATE</button></div>
 
             </form>
 
@@ -143,4 +141,4 @@ function Addproducts() {
     )
 }
 
-export default Addproducts
+export default Updateproduct

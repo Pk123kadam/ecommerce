@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken"
 import { valiToken, valiTokenAdmin } from "./verifytoken"
 import { product_storage } from "../multer/multer"
 import multer from "multer"
+import fs from "fs"
 
 
 Productrouter.post("/addProduct", valiTokenAdmin, async (req, res) => {
@@ -62,24 +63,64 @@ Productrouter.post("/addProduct", valiTokenAdmin, async (req, res) => {
     }
 })
 
-Productrouter.patch("/updateProduct/:id", valiTokenAdmin, async (req, res) => {
+Productrouter.put("/updateProduct/:id", valiTokenAdmin, async (req, res) => {
+
     try {
+        const upload = multer({ storage: product_storage })
+        const uploadData = upload.single("image")
+
+        uploadData(req, res, async function (err) {
+            if (err) {
+                return res.status(400).json({
+                    message: err.message
+                })
+            }
+            const { name, description, category, smallPrice, largePrice, array } = req.body
+            const prev_data = await Product.findOne({ _id: req.params.id })
+            let img;
+            if (req.file) {
+                img = req.file.filename
+                fs.unlink(`product_images/${prev_data.image}`, async (err) => {
+                    if (err) {
+                        return res.status(400).json({ message: err })
+                    }
+                    console.log('deleted')
+                })
+            }
 
 
-        const update = await Product.updateOne({ _id: req.params.id }, { $set: { ...req.body } })
+
+            const upd = await Product.updateOne({ _id: req.params.id }, {
+                $set: {
+                    image: img, name, description, category, prices: {
+                        smallPrice,
+                        largePrice
+                    },
+                    variants: array
 
 
 
-        if (update) {
-            return res.status(201).json({
-                product: update,
-                message: "successfully updated"
+                }
             })
-        } else {
-            return res.status(400).json({
-                message: "something went wrong"
-            })
-        }
+
+
+
+
+
+            if (upd) {
+                return res.status(201).json({
+                    user: upd,
+                    message: "successfully updated"
+                })
+            } else {
+                return res.status(400).json({
+                    message: "something went wrong"
+                })
+            }
+
+
+
+        })
 
 
     } catch (err) {
@@ -90,12 +131,22 @@ Productrouter.patch("/updateProduct/:id", valiTokenAdmin, async (req, res) => {
 })
 Productrouter.delete("/productDelete/:id", valiTokenAdmin, async (req, res) => {
     try {
+        const data = await Product.findOne({ _id: req.params.id })
+
+
+        fs.unlink(`product_images/${data.image}`, async (err) => {
+            if (err) {
+                return res.status(400).json({ message: err })
+            }
+            console.log('deleted')
+        })
+
         const del = await Product.deleteOne({ _id: req.params.id })
 
 
         if (del) {
             return res.status(201).json({
-                user: update,
+                user: del,
                 message: "successfully deleted"
             })
         } else {

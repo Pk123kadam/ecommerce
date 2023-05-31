@@ -36,7 +36,7 @@ function Admin() {
     return (
         <div>
             <ul>
-                <li>   <Link to="/addproduct"><button className='btn'>Products</button></Link></li>
+                <li>   <Link to="/product"><button className='btn'>Products</button></Link></li>
                 <li>   <Link to="/users"><button className='btn'>Users</button></Link></li>
             </ul>
 

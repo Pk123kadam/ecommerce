@@ -19,6 +19,8 @@ import Updateusers from './components/Admin/Updateusers'
 import Profile from './components/profile/Profile'
 import UpdateProfile from './components/profile/UpdateProfile'
 import Cart from './components/cart/Cart'
+import Products from './components/Admin/Products'
+import Updateproduct from './components/Admin/Updateproduct'
 
 
 
@@ -36,7 +38,9 @@ function App() {
 
             <Route path='/' element={<Home></Home>}></Route>
             <Route path='/login' element={<Signup></Signup>}></Route>
+            <Route path='/product' element={<Products></Products>}></Route>
             <Route path='/addproduct' element={<Addproducts></Addproducts>}></Route>
+            <Route path='/updateproduct/:id' element={<Updateproduct></Updateproduct>}></Route>
             <Route path='/users' element={<Users></Users>}></Route>
             <Route path='/cart' element={<Cart></Cart>}></Route>
             <Route path='/updateprofile/:id' element={<UpdateProfile></UpdateProfile>}></Route>

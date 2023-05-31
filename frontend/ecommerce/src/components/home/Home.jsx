@@ -17,6 +17,7 @@ function Home() {
 
     const dispatch = useDispatch()
     const data = useSelector((state) => state.burger)
+    console.log(data)
 
     if (data.status == "pending") {
         console.log("load")
