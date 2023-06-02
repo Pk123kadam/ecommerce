@@ -12,7 +12,8 @@ const initialState = {
     cart: [],
     status: '',
     total: 0,
-    price: 0
+    price: 0,
+
 
 
 
@@ -22,6 +23,7 @@ export const cartSlice = createSlice({
     name: 'burger',
     initialState,
     reducers: {
+
         // filteredBurger: (state, action) => {
         //     console.log(action.payload)
         //     state.filtered
@@ -34,17 +36,18 @@ export const cartSlice = createSlice({
 
 
         builder.addCase(addcart.fulfilled, (state, action) => {
-            console.log(action.payload)
+            console.log(action.payload.amount)
 
 
-            state.price = action.payload.amount
+
             state.cart.push(action.payload),
-                state.total += Number(action.payload.price)
+                state.total += Number(action.payload.price),
 
 
 
 
-            state.status = ""
+
+                state.status = ""
         })
             .addCase(cartDelete.fulfilled, (state, action) => {
                 console.log(action.payload)
@@ -67,6 +70,7 @@ export const cartSlice = createSlice({
 
 
                 } else {
+                    state.price = action.payload.cart[0].price / action.payload.cart[0].quantity
                     state.cart = action.payload.cart
                     state.total = action.payload.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
 
@@ -80,13 +84,15 @@ export const cartSlice = createSlice({
 
 
                 if (action.payload.message == "increment") {
-                    console.log(state.price)
+                    console.log(action.payload)
 
                     state.cart.map((e) => {
                         if (e._id == action.payload.data._id) {
 
+
                             return e.quantity += 1,
-                                e.price += Number(state.price)
+                                e.price += action.payload.data.single
+
 
 
                         }
@@ -97,13 +103,11 @@ export const cartSlice = createSlice({
 
 
                 if (action.payload.message == "decrement") {
-                    console.log(state.price, "decre")
-
+                    console.log(state.amount)
                     state.cart.map((e) => {
                         if (e._id == action.payload.data._id) {
                             return e.quantity -= 1,
-                                e.price -= Number(state.price)
-
+                                e.price -= action.payload.data.single
 
                         }
                     })
@@ -142,6 +146,14 @@ export const cartSlice = createSlice({
 
             })
             .addCase(cartDelete.rejected, (state, action) => {
+                state.status = "error"
+
+            }).addCase(updatecart.pending, (state, action) => {
+                state.status = "pending"
+
+
+            })
+            .addCase(updatecart.rejected, (state, action) => {
                 state.status = "error"
 
             })

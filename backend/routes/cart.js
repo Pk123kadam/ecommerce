@@ -40,14 +40,19 @@ Cartrouter.put("/updateCart/:id", valiToken, async (req, res) => {
     try {
         const { message, data } = req.body
         let update;
+
         console.log(message, data)
         if (message == "increment") {
-            update = await Cart.updateOne({ _id: req.params.id }, { $inc: { quantity: +1, price: +data.price } })
+
+
+
+            update = await Cart.updateOne({ _id: req.params.id }, { $inc: { quantity: +1, price: + data.single } })
 
 
         }
-        else if (message == "decrement") {
-            update = await Cart.updateOne({ _id: req.params.id }, { $inc: { quantity: -1, price: -data.price } })
+        if (message == "decrement") {
+            console.log(data.pricee)
+            update = await Cart.updateOne({ _id: req.params.id }, { $inc: { quantity: -1, price: -data.single } })
 
 
         }

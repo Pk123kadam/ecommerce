@@ -54,7 +54,8 @@ function DisplayProduct({ data, index }) {
 
                 {/* <h6>{e.prices.map((e) => e)}</h6> */}
                 {cart.find((e) => e.id == index + 1) ? <div className='text-center'><button className='btn btn-primary'>ADD TO CART</button></div> : <div className='text-center'><button className='btn btn-primary' onClick={() => {
-                    dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, amount: data.prices[0][Variant] }))
+                    dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, single: Number(data.prices[0][Variant]) }))
+
 
                 }}>ADD TO CART</button></div>}
 

@@ -10,23 +10,36 @@ function CartDispaly({ data }) {
 
     const dispatch = useDispatch()
 
-    const { cart, price } = useSelector((state) => state.cart)
+    const { cart } = useSelector((state) => state.cart)
     console.log(cart.length)
-    console.log(cart)
 
+
+    console.log(data.price)
+    console.log(data._id, data.quantity)
+    useEffect(() => {
+        if (data.quantity == 0) {
+            console.log("hii")
+            dispatch(cartDelete(data))
+
+        }
+
+
+    }, [cart])
 
 
 
     return (
         <div className='col-8 gy-4'>
             <div className='d-flex gap-5 p-4' style={{ boxShadow: " 0 0 5px" }}>
+                {data.quantity == 10 ? "out of stock" : ""}
+
                 <div><h5>{data.name}</h5>
-                    {data.amount}
+
                     <h6>QUANTITY: <button className='btn btn-danger' onClick={() => {
                         dispatch(updatecart({ message: "decrement", data: data }))
-                    }}>-</button> {data.quantity} <button className='btn btn-primary' onClick={() => {
-                        dispatch(updatecart({ message: "increment", data: data, price: price }))
-                    }}>+</button></h6>
+                    }}>-</button> {data.quantity}{data.quantity == 10 ? <button className='btn btn-primary' >+</button> : <button className='btn btn-primary' onClick={() => {
+                        dispatch(updatecart({ message: "increment", data: data }))
+                    }}>+</button>}</h6>
                     <h5>PRICE: {data.price}</h5></div>
                 <div> <img src={"http://localhost:8090/" + data.thumbnail} className='w-75'></img></div>
                 <div> <button className='btn btn-danger' onClick={() => {

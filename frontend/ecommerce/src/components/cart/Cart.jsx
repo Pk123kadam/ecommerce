@@ -12,8 +12,8 @@ import CartDispaly from './CartDispaly'
 function Cart() {
     let cond;
     const dispatch = useDispatch()
-    const { cart, status, total, price } = useSelector((state) => state.cart)
-    console.log(price)
+    const { cart, status, total } = useSelector((state) => state.cart)
+
     const { user } = useSelector((state) => state.login)
     useEffect(() => {
         console.log("cart")
@@ -26,6 +26,8 @@ function Cart() {
     }
 
     console.log(total)
+    console.log(cart)
+    console.log(cart.price)
 
 
     return (
