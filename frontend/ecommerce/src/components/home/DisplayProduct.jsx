@@ -2,16 +2,23 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getburger } from '../../redux/addburger'
-import { addcart } from '../../redux/Cart'
+import { addcart, getcart } from '../../redux/Cart'
+import { Link } from 'react-router-dom'
 
 function DisplayProduct({ data, index }) {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.login)
-    const { cart } = useSelector((state) => state.cart)
+    const { cart, status } = useSelector((state) => state.cart)
+    console.log(cart)
+    console.log(status)
 
     const [Variant, setVariant] = useState(data.variants[0])
     const [quantity, setQuantity] = useState(1);
     console.log(data.prices[0][Variant])
+    useEffect(() => {
+        console.log(user._id)
+        dispatch(getcart(user._id))
+    }, [])
 
 
     return (
@@ -53,7 +60,7 @@ function DisplayProduct({ data, index }) {
                 </div>
 
                 {/* <h6>{e.prices.map((e) => e)}</h6> */}
-                {cart.find((e) => e.id == index + 1) ? <div className='text-center'><button className='btn btn-primary'>ADD TO CART</button></div> : <div className='text-center'><button className='btn btn-primary' onClick={() => {
+                {status == "unauthorized" ? <div className='text-center'><Link to="/login"><button className='btn btn-primary'>ADD TO CART</button></Link></div> : cart.find((e) => e.id == index + 1) ? <div className='text-center'><button className='btn btn-primary'>ADD TO CART</button></div> : <div className='text-center'><button className='btn btn-primary' onClick={() => {
                     dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, single: Number(data.prices[0][Variant]) }))
 
 

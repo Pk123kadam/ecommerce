@@ -20,7 +20,7 @@ Cartrouter.post("/addCart", vali, async (req, res) => {
         if (save) {
             return res.status(201).json({
                 user: add,
-                message: "successfully updated"
+                message: "successfully created"
             })
         } else {
             return res.status(400).json({
@@ -36,7 +36,7 @@ Cartrouter.post("/addCart", vali, async (req, res) => {
     }
 })
 
-Cartrouter.put("/updateCart/:id", valiToken, async (req, res) => {
+Cartrouter.put("/updateCart/:id", vali, async (req, res) => {
     try {
         const { message, data } = req.body
         let update;

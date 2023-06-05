@@ -37,6 +37,11 @@ export const loginSlice = createSlice({
                 console.log("ko")
                 state.user = {}
 
+            }
+            else if (action.payload.message == "user not found") {
+                console.log("ko")
+                state.user = {}
+
             } else {
                 state.user = action.payload.data
             }

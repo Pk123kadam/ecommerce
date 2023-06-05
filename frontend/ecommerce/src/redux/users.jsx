@@ -14,7 +14,8 @@ const initialState = {
     registerstatus: '',
     updatestatus: '',
     deletestatus: '',
-    user: {}
+    user: {},
+    userfiltered: []
 
 
 
@@ -25,6 +26,12 @@ export const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
+        filtereduser: (state, action) => {
+            console.log(action.payload)
+            state.userfiltered
+                = action.payload
+
+        }
     },
     extraReducers: (builder) => {
 
@@ -33,6 +40,7 @@ export const usersSlice = createSlice({
 
             console.log(action.payload)
             state.users = action.payload
+            state.userfiltered = action.payload
             state.status = "",
                 state.registerstatus = '',
                 state.updatestatus = '',
@@ -202,6 +210,6 @@ export const getusers = createAsyncThunk(
 
 
 // Action creators are generated for each case reducer function
-export const { } = usersSlice.actions
+export const { filtereduser } = usersSlice.actions
 
 export default usersSlice.reducer

@@ -8,10 +8,12 @@ import { getuser } from '../../redux/slice'
 import { useNavigate } from 'react-router-dom'
 import { filteredBurger } from '../../redux/addburger'
 import { getcart } from '../../redux/Cart'
+import { filtereduser } from '../../redux/users'
 
 
 function Navbar() {
     const [fil, Setfil] = useState([])
+    const [userfil, Setuserfil] = useState([])
 
     console.log(fil)
 
@@ -28,6 +30,7 @@ function Navbar() {
     const profile = useSelector((state) => state.login.user)
     const update_profile = useSelector((state) => state.login.updateuser)
     const { burger } = useSelector((state) => state.burger)
+    const { users, deletestatus, status, filtered } = useSelector((state) => state.users)
     const { cart } = useSelector((state) => state.cart)
     console.log(burger)
     useEffect(() => {
@@ -44,7 +47,7 @@ function Navbar() {
     console.log(text)
     function filter(value) {
         console.log("i")
-        const fil = burger.filter((e) => {
+        const bugerfil = burger.filter((e) => {
             return Object.keys(e).some(key => {
                 console.log(typeof (e[key]))
                 console.log(key)
@@ -55,8 +58,26 @@ function Navbar() {
         })
 
 
-        Setfil(fil)
-        console.log(fil)
+
+
+        Setfil(bugerfil)
+
+
+
+
+
+    }
+    function fil2(value) {
+        const userfil = users.filter((e) => {
+            return Object.keys(e).some(key => {
+                console.log(typeof (e[key]))
+                console.log(key)
+
+                return e[key].toString().toLowerCase().includes(value.toLowerCase())
+
+            })
+        })
+        Setuserfil(userfil)
 
 
     }
@@ -64,6 +85,7 @@ function Navbar() {
         const val = e.target.value
         console.log(val)
         filter(val)
+        fil2(val)
 
 
 
@@ -71,7 +93,9 @@ function Navbar() {
     }
     function sub(e) {
         e.preventDefault()
-        dispatch(filteredBurger(fil))
+        console.log(fil)
+        dispatch(filteredBurger(fil)),
+            dispatch(filtereduser(userfil))
 
     }
 
@@ -112,7 +136,7 @@ function Navbar() {
                                     <i class="bi bi-cart4" style={{ fontSize: "27px" }} onClick={() => {
                                         navigate("/cart")
                                     }}></i>
-                                    <div className='rounded-circle bg-dark text-light px-2' style={{ position: "absolute", bottom: "-10px", left: "-10px" }}>{cart.length}</div>
+                                    <div className='rounded-circle bg-dark text-light px-2' style={{ position: "absolute", bottom: "-10px", left: "-10px" }}>{cart.reduce((acc, cr) => acc + cr.quantity, 0)}</div>
                                 </li>
 
 

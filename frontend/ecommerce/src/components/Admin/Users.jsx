@@ -13,8 +13,9 @@ function Users() {
 
 
     }, [])
-    const { users, deletestatus, status } = useSelector((state) => state.users
+    const { users, deletestatus, status, userfiltered } = useSelector((state) => state.users
     )
+    console.log(userfiltered)
     if (status == "pending") {
         load = <h1>loading...</h1>
 
@@ -37,7 +38,7 @@ function Users() {
                 </thead>
                 <tbody>
 
-                    {users.map((e, i) => {
+                    {userfiltered.map((e, i) => {
                         return <tr key={i}>
 
                             <td >{e.username}</td>

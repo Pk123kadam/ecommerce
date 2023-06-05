@@ -36,18 +36,29 @@ export const cartSlice = createSlice({
 
 
         builder.addCase(addcart.fulfilled, (state, action) => {
-            console.log(action.payload.amount)
+            console.log(action.payload)
+
+            if (action.payload.message == "unauthorized") {
+                console.log("unnn")
+                state.status = action.payload.message
+                state.cart = []
+
+
+            }
 
 
 
-            state.cart.push(action.payload),
-                state.total += Number(action.payload.price),
+            else {
+
+                state.cart.push(action.payload.user),
+                    state.total += Number(action.payload.price),
 
 
 
 
 
-                state.status = ""
+                    state.status = ""
+            }
         })
             .addCase(cartDelete.fulfilled, (state, action) => {
                 console.log(action.payload)
@@ -67,11 +78,13 @@ export const cartSlice = createSlice({
 
                 if (action.payload.message == "unauthorized") {
                     state.cart = []
+                    state.status = action.payload.message
 
 
                 } else {
                     state.price = action.payload.cart[0].price / action.payload.cart[0].quantity
                     state.cart = action.payload.cart
+                    state.status = ""
                     state.total = action.payload.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
 
                 }
@@ -168,10 +181,30 @@ export const addcart = createAsyncThunk(
     async (thunkAPI) => {
         console.log(thunkAPI)
 
-        const data = await axios.post("http://localhost:8090/addCart", thunkAPI, { withCredentials: true })
-        console.log(data)
+        // const data = await axios.post("http://localhost:8090/addCart", thunkAPI, { withCredentials: true })
+        // console.log(data)
+
         // return data.data.user
-        return thunkAPI
+
+        const data = await fetch(`http://localhost:8090/addCart`, {
+            method: "POST",
+            mode: 'cors',
+            credentials: 'include',
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(thunkAPI)
+
+
+        }
+
+        )
+        const res = await data.json()
+
+        console.log(res)
+        return res
 
 
     }

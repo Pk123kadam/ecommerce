@@ -18,6 +18,7 @@ function Home() {
     const dispatch = useDispatch()
     const data = useSelector((state) => state.burger)
     console.log(data)
+    console.log(data.filtered)
 
     if (data.status == "pending") {
         console.log("load")
@@ -27,7 +28,7 @@ function Home() {
     return (
         <>
             <div className='container'>
-                <div className='row row-cols-lg-3 row-cols-md-2 row-cols-1'>
+                <div className='row row-cols-lg-3 row-cols-md-2 row-cols-1 gy-3'>
                     {load}
                     {
                         data.filtered.map((datas, i) => {
