@@ -60,8 +60,8 @@ function DisplayProduct({ data, index }) {
                 </div>
 
                 {/* <h6>{e.prices.map((e) => e)}</h6> */}
-                {status == "unauthorized" ? <div className='text-center'><Link to="/login"><button className='btn btn-primary'>ADD TO CART</button></Link></div> : cart.find((e) => e.id == index + 1) ? <div className='text-center'><button className='btn btn-primary'>ADD TO CART</button></div> : <div className='text-center'><button className='btn btn-primary' onClick={() => {
-                    dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, single: Number(data.prices[0][Variant]) }))
+                {status == "unauthorized" ? <div className='text-center'><Link to="/login"><button className='btn btn-primary'>ADD TO CART</button></Link></div> : <div className='text-center'><button className='btn btn-primary' onClick={() => {
+                    dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, variant: Variant, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, single: Number(data.prices[0][Variant]) }))
 
 
                 }}>ADD TO CART</button></div>}

@@ -15,6 +15,7 @@ function Cart() {
     const { cart, status, total } = useSelector((state) => state.cart)
 
     const { user } = useSelector((state) => state.login)
+    console.log(user)
     useEffect(() => {
         console.log("cart")
         dispatch(getcart(user._id))
@@ -25,7 +26,7 @@ function Cart() {
         cond = <h1>no orders</h1>
     }
 
-    console.log(total)
+
     console.log(cart)
     console.log(cart.price)
 

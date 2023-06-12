@@ -12,7 +12,7 @@ const initialState = {
     cart: [],
     status: '',
     total: 0,
-    price: 0,
+    // price: 0,
 
 
 
@@ -45,13 +45,30 @@ export const cartSlice = createSlice({
 
 
             }
+            else if (state.cart.find((e) => e.id == action.payload.user.id && e.
+                userID == action.payload.user.
+                    userID && e.variant == action.payload.user.variant)) {
+                console.log("already exited")
+                const data = state.cart.find((e) => e.id == action.payload.user.id && e.
+                    userID == action.payload.user.
+                        userID && e.variant == action.payload.user.variant)
+                console.log(data)
+                data.quantity = Number(action.payload.user.quantity)
+                data.price = action.payload.user.price
+                state.total += Number(data.price),
+
+                    state.status = ""
+
+            }
 
 
 
             else {
+                console.log("else")
+
 
                 state.cart.push(action.payload.user),
-                    state.total += Number(action.payload.price),
+                    state.total += Number(action.payload.userprice),
 
 
 
@@ -78,11 +95,12 @@ export const cartSlice = createSlice({
 
                 if (action.payload.message == "unauthorized") {
                     state.cart = []
+                    state.total = 0
                     state.status = action.payload.message
 
 
                 } else {
-                    state.price = action.payload.cart[0].price / action.payload.cart[0].quantity
+                    // state.price = action.payload.cart[0].price / action.payload.cart[0].quantity
                     state.cart = action.payload.cart
                     state.status = ""
                     state.total = action.payload.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
@@ -133,7 +151,6 @@ export const cartSlice = createSlice({
 
 
             })
-
 
             .addCase(addcart.pending, (state, action) => {
                 state.status = "pending"
@@ -209,6 +226,7 @@ export const addcart = createAsyncThunk(
 
     }
 )
+
 export const cartDelete = createAsyncThunk(
     'cart/delete',
     async (thunkAPI) => {

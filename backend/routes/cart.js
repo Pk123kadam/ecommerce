@@ -8,11 +8,35 @@ import { valiToken, valiTokenAdmin, vali } from "./verifytoken"
 
 Cartrouter.post("/addCart", vali, async (req, res) => {
     try {
-        const add = new Cart({
-            ...req.body
-
+        console.log(req.body)
+        let update;
+        let save;
+        let add;
+        const existed = await Cart.findOne({
+            id: req.body.id,
+            userID: req.body.
+                userID,
+            variant: req.body.variant
         })
-        const save = add.save()
+        console.log(existed)
+
+        if (existed) {
+            console.log("existed")
+            // update = await Cart.updateOne({ id: req.body.id, userID: req.body.userID, variant: req.body.variant }, { $inc: { quantity: +1, price: + existed.single } })
+            update = await Cart.updateOne({ id: req.body.id, userID: req.body.userID, variant: req.body.variant }, { $set: { quantity: req.body.quantity, price: + req.body.price } })
+            console.log("update", update)
+
+
+        } else {
+            console.log("else")
+            add = new Cart({
+                ...req.body
+
+            })
+            save = await add.save()
+
+
+        }
 
 
 
@@ -22,7 +46,15 @@ Cartrouter.post("/addCart", vali, async (req, res) => {
                 user: add,
                 message: "successfully created"
             })
-        } else {
+        }
+
+        else if (update) {
+            return res.status(201).json({
+                user: req.body,
+                message: "successfully updated"
+            })
+        }
+        else {
             return res.status(400).json({
                 message: "something went wrong"
             })
