@@ -17,7 +17,7 @@ function Addproducts() {
     const [image, setimage] = useState(null);
     const [data, setdata] = useState({});
     const [arrayValues, setArrayValues] = useState([]);
-
+    console.log(arrayValues)
 
 
     function handlesubmit(e) {
@@ -35,8 +35,8 @@ function Addproducts() {
         console.log(data)
         const formData = new FormData();
         formData.append('name', data.name);
-        formData.append('smallPrice', Number(data.smallPrice));
-        formData.append('largePrice', Number(data.largePrice));
+        formData.append('small', Number(data.small));
+        formData.append('large', Number(data.large));
 
 
         formData.append('category', data.category);
@@ -72,8 +72,8 @@ function Addproducts() {
             name: "",
             description: "",
             category: "",
-            smallPrice: "",
-            largePrice: ""
+            small: "",
+            large: ""
         })
 
 
@@ -118,12 +118,12 @@ function Addproducts() {
                     <input type="text" class="form-control" id="exampleInputPassword1" name='description' value={data.description} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">smallPrice</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" name='smallPrice' value={data.smallPrice} onChange={handlechange} />
+                    <label for="exampleInputPassword1" class="form-label">small</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" name='small' value={data.small} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">largePrice</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" name='largePrice' value={data.largePrice} onChange={handlechange} />
+                    <label for="exampleInputPassword1" class="form-label">large</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" name='large' value={data.large} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Variants</label>

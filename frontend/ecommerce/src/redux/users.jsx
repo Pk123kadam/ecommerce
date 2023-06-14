@@ -54,18 +54,7 @@ export const usersSlice = createSlice({
                 state.users.push(action.payload.user)
                 state.registerstatus = action.payload.message
             })
-            .addCase(updateuser.fulfilled, (state, action) => {
 
-                const { id, data, status } = action.payload
-                console.log(id, data)
-                state.updatestatus = status
-                const update = state.users.find((e) => e._id == id)
-                update.username = data.username,
-                    update.email = data.email
-
-
-
-            })
             .addCase(deleteuser.fulfilled, (state, action) => {
 
                 console.log(action.payload)
@@ -92,16 +81,16 @@ export const usersSlice = createSlice({
                 state.registerstatus = action.payload.message
 
             })
-            .addCase(updateuser.pending, (state, action) => {
-                state.updatestatus = "pending"
+            // .addCase(updateuser.pending, (state, action) => {
+            //     state.updatestatus = "pending"
 
 
-            })
-            .addCase(updateuser.rejected, (state, action) => {
-                console.log("hi")
-                state.updatestatus = action.payload.message
+            // })
+            // .addCase(updateuser.rejected, (state, action) => {
+            //     console.log("hi")
+            //     state.updatestatus = action.payload.message
 
-            })
+            // })
             .addCase(deleteuser.pending, (state, action) => {
                 state.deletestatus = "pending"
 
@@ -119,56 +108,37 @@ export const usersSlice = createSlice({
 })
 export const registeruser = createAsyncThunk(
     'users/register',
+    // async (thunkAPI) => 
+    // {
+    //     console.log(thunkAPI)
+    //     const data = await fetch("http://localhost:8090/register", {
+    //         method: "POST",
+    //         mode: 'cors',
+    //         credentials: 'include',
+
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json'
+    //         },
+    //         body: JSON.stringify(thunkAPI)
+
+    //     }
+
+    //     )
+    //     const res = await data.json()
+    //     return res
+
+
+
+    // }
     async (thunkAPI) => {
         console.log(thunkAPI)
-        const data = await fetch("http://localhost:8090/register", {
-            method: "POST",
-            mode: 'cors',
-            credentials: 'include',
-
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(thunkAPI)
-
-        }
-
-        )
-        const res = await data.json()
-        return res
-
-
+        const data = await axios.post("http://localhost:8090/register", thunkAPI, { withCredentials: true })
+        return data.data
 
     }
 )
-export const updateuser = createAsyncThunk(
-    'users/update',
-    async (thunkAPI) => {
-        console.log(thunkAPI)
-        const { id, data } = thunkAPI
-        const datas = await fetch(`http://localhost:8090/update/${id}`, {
-            method: "PUT",
-            mode: 'cors',
-            credentials: 'include',
 
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
-
-        }
-
-        )
-        const res = await datas.json()
-        const up = { ...thunkAPI, status: res.message }
-        console.log(up)
-        return up
-
-
-    }
-)
 export const deleteuser = createAsyncThunk(
     'users/delete',
     async (thunkAPI) => {

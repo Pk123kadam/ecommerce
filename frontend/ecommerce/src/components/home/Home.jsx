@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getburger } from '../../redux/addburger'
 import DisplayProduct from './DisplayProduct'
+import Loader from '../loader/Loader';
 
 function Home() {
     let load;
@@ -23,7 +24,7 @@ function Home() {
     if (data.status == "pending") {
         console.log("load")
 
-        load = <h1>loading...</h1>
+        load = <Loader></Loader>
     }
     return (
         <>

@@ -29,31 +29,36 @@ function CartDispaly({ data }) {
 
 
     return (
-        <div className='col-8 gy-4'>
-            <div className='d-flex gap-5 p-4' style={{ boxShadow: " 0 0 5px" }}>
-                {data.quantity == 10 ? "out of stock" : ""}
 
-                <div><h5>{data.name}</h5>
+        <>
+            <div style={{ boxShadow: "0 0 5px" }} className='p-5 mb-3'>
 
-                    <h6>QUANTITY: <button className='btn btn-danger' onClick={() => {
-                        dispatch(updatecart({ message: "decrement", data: data }))
-                    }}>-</button> {data.quantity}{data.quantity == 10 ? <button className='btn btn-primary' >+</button> : <button className='btn btn-primary' onClick={() => {
-                        dispatch(updatecart({ message: "increment", data: data }))
-                    }}>+</button>}</h6>
-                    <h5>PRICE: {data.price}</h5></div>
-                <div> <img src={"http://localhost:8090/" + data.thumbnail} className='w-75'></img></div>
-                <div> <button className='btn btn-danger' onClick={() => {
+
+
+                <div className='d-md-flex gap-3'>
+                    <div><h5>{data.name}</h5>
+
+                        <h6>QUANTITY: <button className='btn btn-danger' onClick={() => {
+                            dispatch(updatecart({ message: "decrement", data: data }))
+                        }}>-</button> {data.quantity}  <button className='btn btn-primary' onClick={() => {
+                            dispatch(updatecart({ message: "increment", data: data }))
+                        }}> + </button></h6>
+                        <h5>PRICE: {data.price}</h5></div>
+
+                    <div> <img src={"http://localhost:8090/" + data.thumbnail} style={{ width: "200px", height: "200px" }}></img></div>
+                </div>
+                <div> <i class="bi bi-trash-fill text-danger" style={{ fontSize: "30px" }} onClick={() => {
 
                     dispatch(cartDelete(data))
 
 
 
-                }}>DELETE</button>
+                }}></i>
                 </div>
+
             </div>
+        </>
 
-
-        </div>
     )
 }
 

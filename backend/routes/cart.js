@@ -23,7 +23,7 @@ Cartrouter.post("/addCart", vali, async (req, res) => {
         if (existed) {
             console.log("existed")
             // update = await Cart.updateOne({ id: req.body.id, userID: req.body.userID, variant: req.body.variant }, { $inc: { quantity: +1, price: + existed.single } })
-            update = await Cart.updateOne({ id: req.body.id, userID: req.body.userID, variant: req.body.variant }, { $set: { quantity: req.body.quantity, price: + req.body.price } })
+            update = await Cart.updateOne({ id: req.body.id, userID: req.body.userID, variant: req.body.variant }, { $inc: { quantity: req.body.quantity, price: req.body.price } })
             console.log("update", update)
 
 

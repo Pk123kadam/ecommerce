@@ -30,22 +30,31 @@ function Profile() {
 
 
     return (
-        <div className='text-center pt-5'>
+
+        <>
             {load}
-            <h1>{profile.username}</h1>
-            <h1>{profile.email}</h1>
-            <Link to={`/updateprofile/${profile._id}`}><button className='btn btn-primary me-3'>UPDATE</button></Link>
-            <button className='btn btn-danger' onClick={() => {
-                dispatch(deleteuser(profile._id),
-                    dispatch(logoutuser()),
-                    navigate("/")
+
+            <div class="card mx-auto" style={{ width: "18rem" }}>
+                <img src={`http://localhost:8090/${profile.image}`}></img>
+                <div class="card-body">
+                    <h5 class="card-title">{profile.username}</h5>
+                    <h5 class="card-title">{profile.email}</h5>
+
+                    <Link to={`/updateprofile/${profile._id}`}><button className='btn btn-primary me-3 mb-3'>UPDATE</button></Link>
+                    <button className='btn btn-danger' onClick={() => {
+                        dispatch(deleteuser(profile._id),
+                            dispatch(logoutuser()),
+                            navigate("/")
 
 
-                )
-            }}>DELETE ACCOUNT</button>
+                        )
+                    }}>DELETE ACCOUNT</button>
+                </div>
+            </div></>
 
 
-        </div>
+
+
     )
 }
 

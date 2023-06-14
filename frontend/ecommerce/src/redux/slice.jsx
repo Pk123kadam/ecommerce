@@ -68,36 +68,39 @@ export const loginSlice = createSlice({
             }
 
 
-        }).addCase(updateuser.fulfilled, (state, action) => {
-
-            const { id, data, status } = action.payload
-            console.log(id, data)
-            state.updatestatus = status
-
-
-
-            state.updateuser = { ...data }
-            console.log(state.user)
-
-
-
-
-
-        }).addCase(getuser.fulfilled, (state, action) => {
-
-            console.log(action.payload)
-            if (action.payload.message == "unauthorized") {
-                console.log("un")
-                state.updateuser = {}
-
-            } else {
-                state.updateuser = { ...action.payload.user }
-            }
-
-
-
-
         })
+            .addCase(updateuser.fulfilled, (state, action) => {
+
+                const { id, formData } = action.payload
+                console.log(id, formData)
+
+
+
+
+                state.updateuser = { ...state.user, username: formData.get("username") }
+                console.log(state.user)
+
+
+
+
+
+            })
+            .addCase(getuser.fulfilled, (state, action) => {
+
+                console.log(action.payload)
+                if (action.payload.message == "unauthorized") {
+                    console.log("un")
+                    state.updateuser = {}
+
+                } else {
+                    state.updateuser = { ...action.payload.user }
+
+                }
+
+
+
+
+            })
 
             .addCase(logoutuser.fulfilled, (state, action) => {
 
@@ -131,23 +134,36 @@ export const loginSlice = createSlice({
                 state.loginstatus = action.payload.message
 
             })
-            .addCase(updateuser.pending, (state, action) => {
-                state.updatestatus = "pending"
+        // .addCase(updateuser.pending, (state, action) => {
+        //     state.updatestatus = "pending"
 
 
-            })
+        // })
 
-            .addCase(updateuser.rejected, (state, action) => {
+        // .addCase(updateuser.rejected, (state, action) => {
 
-                const { id, data, status } = action.payload
-                state.updatestatus = status
+        //     const { id, data, status } = action.payload
+        //     state.updatestatus = status
 
 
-            })
+        // })
 
 
     },
 })
+export const updateuser = createAsyncThunk(
+    'users/update',
+
+    async (thunkAPI) => {
+        console.log(thunkAPI)
+        const { id, formData } = thunkAPI
+
+        const datas = await axios.put(`http://localhost:8090/update/${id}`, formData, { withCredentials: true })
+        console.log(datas)
+        return thunkAPI
+
+    }
+)
 
 export const deleteuser = createAsyncThunk(
     'user/delete',
@@ -211,33 +227,33 @@ export const getuser = createAsyncThunk(
     }
 )
 
-export const updateuser = createAsyncThunk(
-    'user/update',
-    async (thunkAPI) => {
-        console.log(thunkAPI)
-        const { id, data } = thunkAPI
-        const datas = await fetch(`http://localhost:8090/update/${id}`, {
-            method: "PUT",
-            mode: 'cors',
-            credentials: 'include',
+// export const updateuser = createAsyncThunk(
+//     'user/update',
+//     async (thunkAPI) => {
+//         console.log(thunkAPI)
+//         const { id, data } = thunkAPI
+//         const datas = await fetch(`http://localhost:8090/update/${id}`, {
+//             method: "PUT",
+//             mode: 'cors',
+//             credentials: 'include',
 
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Accept': 'application/json'
+//             },
+//             body: JSON.stringify(data)
 
-        }
+//         }
 
-        )
-        const res = await datas.json()
-        const up = { ...thunkAPI, status: res.message }
-        console.log(up)
-        return up
+//         )
+//         const res = await datas.json()
+//         const up = { ...thunkAPI, status: res.message }
+//         console.log(up)
+//         return up
 
 
-    }
-)
+//     }
+// )
 export const loginuser = createAsyncThunk(
     'users/login',
     async (thunkAPI) => {

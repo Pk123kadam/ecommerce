@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getcart } from '../../redux/Cart'
 import CartDispaly from './CartDispaly'
+import Loader from '../loader/Loader'
+import { Link } from 'react-router-dom'
 
 
 
@@ -11,6 +13,7 @@ import CartDispaly from './CartDispaly'
 
 function Cart() {
     let cond;
+    let load;
     const dispatch = useDispatch()
     const { cart, status, total } = useSelector((state) => state.cart)
 
@@ -23,29 +26,56 @@ function Cart() {
     }, [user])
     console.log(cart)
     if (cart.length == 0) {
-        cond = <h1>no orders</h1>
+        cond = <div className='container'><div className='row'><div className='col-12'>
+            <div className='text-center p-3'> <h3>Your Cart Is Empty!! </h3>
+                <img src='cart.webp' className='w-100' style={{ height: "700px" }}></img>
+                <Link to="/"><button className='btn'>CLICK HERE TO CHOOSE SOME DELICIOUS PIZZA!!</button></Link>
+            </div></div></div></div>
     }
 
 
     console.log(cart)
     console.log(cart.price)
+    if (status == "pending") {
+        load = <Loader></Loader>
+    }
 
 
     return (
-        <div className='container'>
+        <> {status == "pending" ? load : cond ? cond : <div className='container'>
+
             <div className='row'>
-                {cart.map((e, i) => {
-                    return <CartDispaly data={e}></CartDispaly>
-                })}
-                <div className='col-4'>
-                    <div style={{ boxShadow: "0 0 5px" }} className='text-center p-5'>       <h1>GRAND TOTAL :{total} </h1></div>
+                <div className='col-md-8 col-12'>
+                    <div>
+
+                        {cart.map((e, i) => {
+                            return <CartDispaly data={e}></CartDispaly>
+                        })}
+                    </div>
+                </div>
+
+                <div className='col-md-4 col-12'>
+
+                    <div>
+                        <div class="card p-3">
+                            <h1>  Summary</h1>
+
+                            <div class="card-body">
+                                Total Amount:<h1>{total}</h1>
+                                Total Quantity:<h1>{cart.reduce((acc, cr) => acc + Number(cr.quantity), 0)}</h1>
+                                <button className='btn btn-primary'>Checkout</button>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-                {cond}
+
 
             </div>
 
-        </div>
+        </div>}
+        </>
     )
 }
 

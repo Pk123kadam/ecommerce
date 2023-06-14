@@ -50,8 +50,8 @@ function Updateproduct() {
         if (data.name) {
             formData.append('name', data.name);
         }
-        formData.append('smallPrice', data.smallPrice);
-        formData.append('largePrice', data.largePrice);
+        formData.append('small', data.small);
+        formData.append('large', data.large);
 
 
         formData.append('category', data.category);
@@ -70,8 +70,8 @@ function Updateproduct() {
             name: "",
             description: "",
             category: "",
-            smallPrice: "",
-            largePrice: ""
+            small: "",
+            large: ""
         })
 
 
@@ -98,7 +98,7 @@ function Updateproduct() {
         <div className='w-50 mx-auto'>
             <h1 className='text-center'>UPDATE PRODUCTS</h1>
             <form onSubmit={handlesubmit} method="post" enctype="multipart/form-data">
-                <span className={status == "added successfully" ? "text-primary" : "text-danger"}>{status}</span>
+                <span className={status == "updated successfully" ? "text-primary" : "text-danger"}>{status}</span>
 
 
                 <div class="mb-3">
@@ -116,12 +116,12 @@ function Updateproduct() {
                     <input type="text" class="form-control" id="exampleInputPassword1" name='description' value={data.description} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">smallPrice</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" name='smallPrice' value={data.smallPrice} onChange={handlechange} />
+                    <label for="exampleInputPassword1" class="form-label">small</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" name='smallPrice' value={data.small} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">largePrice</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" name='largePrice' value={data.largePrice} onChange={handlechange} />
+                    <label for="exampleInputPassword1" class="form-label">large</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" name='largePrice' value={data.large} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Variants</label>

@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react'
 import "./navbar.css"
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux"
-import { logoutuser, loginuser, verifyuser } from '../../redux/slice'
+import { logoutuser, loginuser, verifyuser, updateuser } from '../../redux/slice'
 import { getuser } from '../../redux/slice'
 
 import { useNavigate } from 'react-router-dom'
 import { filteredBurger } from '../../redux/addburger'
 import { getcart } from '../../redux/Cart'
-import { filtereduser } from '../../redux/users'
+
 
 
 function Navbar() {
     const [fil, Setfil] = useState([])
-    const [userfil, Setuserfil] = useState([])
+
+    const [cat, setcat] = useState("all")
+    const [pizza, setpizza] = useState("")
 
     console.log(fil)
 
@@ -33,6 +35,7 @@ function Navbar() {
     const { users, deletestatus, status, filtered } = useSelector((state) => state.users)
     const { cart } = useSelector((state) => state.cart)
     console.log(burger)
+    console.log(update_profile.image)
     useEffect(() => {
         console.log("hainnnn")
         dispatch(getuser(profile._id))
@@ -45,60 +48,88 @@ function Navbar() {
     console.log(profile)
 
     console.log(text)
-    function filter(value) {
-        console.log("i")
-        const bugerfil = burger.filter((e) => {
-            return Object.keys(e).some(key => {
-                console.log(typeof (e[key]))
-                console.log(key)
+    // function filter(value) {
+    //     console.log("i")
+    //     // const bugerfil = burger.filter((e) => {
+    //     //     return Object.keys(e).some(key => {
+    //     //         console.log(typeof (e[key]))
+    //     //         console.log(key)
 
-                return e[key].toString().toLowerCase().includes(value.toLowerCase())
+    //     //         return e[key].toString().toLowerCase().includes(value.toLowerCase())
 
-            })
-        })
+    //     //     })
+    //     // })
+    //     const bugerfil = burger.filter((e) => {
+    //         if (cat == "all") {
+    //             console.log("all")
+    //             return e.name.toLowerCase() == value.toLowerCase()
 
+    //         }
 
+    //         else {
+    //             return e.name.toLowerCase() == value.toLowerCase() && e.category.toLowerCase() == cat.toLocaleLowerCase()
 
+    //         }
 
-        Setfil(bugerfil)
-
-
-
-
-
-    }
-    function fil2(value) {
-        const userfil = users.filter((e) => {
-            return Object.keys(e).some(key => {
-                console.log(typeof (e[key]))
-                console.log(key)
-
-                return e[key].toString().toLowerCase().includes(value.toLowerCase())
-
-            })
-        })
-        Setuserfil(userfil)
+    //     })
+    //     console.log(bugerfil)
 
 
-    }
+
+
+
+    //     Setfil(bugerfil)
+
+
+
+
+
+    // }
+    // function fil2(value) {
+    //     const userfil = users.filter((e) => {
+    //         return Object.keys(e).some(key => {
+    //             console.log(typeof (e[key]))
+    //             console.log(key)
+
+    //             return e[key].toString().toLowerCase().includes(value.toLowerCase())
+
+    //         })
+    //     })
+    //     Setuserfil(userfil)
+
+
+    // }
     function change(e) {
         const val = e.target.value
-        console.log(val)
-        filter(val)
-        fil2(val)
+        setpizza(val)
+
+        // fil2(val)
 
 
 
 
     }
+
+
     function sub(e) {
         e.preventDefault()
-        console.log(fil)
-        dispatch(filteredBurger(fil)),
-            dispatch(filtereduser(userfil))
+
+        dispatch(filteredBurger(burger.filter((e) => {
+            if (cat == "all") {
+                return e.name.toLowerCase().includes(pizza.toLowerCase())
+            } else {
+                return e.name.toLowerCase().includes(pizza.toLowerCase()) && e.category.toLowerCase() == cat.toLocaleLowerCase()
+
+            }
+        })))
+        // dispatch(filtereduser(userfil))
 
     }
+    function handlecat(e) {
+        console.log(e.target.value)
+        setcat(e.target.value)
 
+    }
 
     return (
         <div style={{ marginBottom: "80px" }}>
@@ -112,31 +143,46 @@ function Navbar() {
                         <div className='custom_nav'>
 
                             <form class="d-flex" onSubmit={sub}>
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={change} />
-                                <button class="btn btn-outline-success" type='submit'>Search</button>
+                                <input class="form-control me-2" type="search" placeholder="Search pizza" aria-label="Search" onChange={change} />
+                                <select onChange={handlecat} class="form-select me-3" aria-label="Default select example">
+                                    <option value="all">ALL</option>
+                                    <option value="veg">VEG</option>
+                                    <option value="non veg">NON-VEG</option>
+                                </select>
+                                <button class="btn btn-outline-success btn_hover" type='submit'>Search</button>
+
                             </form>
-                            <Link to="/"><button className='btn'>Navbar</button></Link>
+                            <Link to="/"><img src='pizzalogo.png' style={{ width: "300px", height: "50px" }} className='mt-2'></img></Link>
                             <ul class="navbar-nav  mb-2 mb-lg-0 gap-3 align-items-center">
                                 <li class="nav-item">
                                     <Link to="/admin"><button className='btn '>ADMIN</button></Link>
                                 </li>
-                                <li class="nav-item">
-                                    <Link to={`/profile/${profile._id}`}><button className='btn '>{update_profile.username ? update_profile.username : "PROFILE"}</button></Link>
-                                </li>
+                                {/* <li class="nav-item">
+                                    {update_profile.image ? <img src={`http://localhost:8090/${update_profile.image}`} className='w-25 h-25'></img> : null}
+                                </li> */}
 
-                                {text == "logged in" ? <button className='btn' onClick={() => {
+
+
+
+
+                                {update_profile.username ? <li class="nav-item"> <Link to={`/profile/${profile._id}`}>  {update_profile.image ? <img src={`http://localhost:8090/${update_profile.image}`} className=' rounded-circle' style={{ width: "60px", height: "60px" }}></img> : null} <button className='btn '> {update_profile.username} </button></Link>  </li> : null}
+
+
+
+                                {text == "logged in" ? <li class="nav-item"><button className='btn' onClick={() => {
                                     dispatch(logoutuser())
                                     navigate("/login")
 
-                                }}>LOGOUT</button> : (<li class="nav-item">
+                                }}>LOGOUT</button></li> : (<li class="nav-item">
                                     <Link to="/login"><button className='btn '>LOGIN</button></Link>
                                 </li>)}
 
                                 <li class="nav-item" style={{ position: "relative" }}>
-                                    <i class="bi bi-cart4" style={{ fontSize: "27px" }} onClick={() => {
+
+                                    <img src='pizza.png' className='img_hover' style={{ width: "50px", height: "50px" }} onClick={() => {
                                         navigate("/cart")
-                                    }}></i>
-                                    <div className='rounded-circle bg-dark text-light px-2' style={{ position: "absolute", bottom: "-10px", left: "-10px" }}>{cart.reduce((acc, cr) => acc + cr.quantity, 0)}</div>
+                                    }}></img>
+                                    <div className='rounded text-light px-2' style={{ position: "absolute", bottom: "-10px", left: "-10px", backgroundColor: "#ff4d00" }}>{cart.reduce((acc, cr) => acc + cr.quantity, 0)}</div>
                                 </li>
 
 

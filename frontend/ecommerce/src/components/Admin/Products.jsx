@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { delburger, getburger } from '../../redux/addburger'
+import Loader from '../loader/Loader'
 
 function Products() {
     let load;
@@ -13,10 +14,11 @@ function Products() {
 
     }, [])
     if (status == "pending") {
-        load = <h1>loading...</h1>
+        load = <Loader></Loader>
     }
     return (
         <div className='container'>
+            {load}
 
             <Link to="/addproduct">  <button className='btnb btn-primary'>ADD PRODUCT</button></Link>
             <div className='table-responsive'>
@@ -33,11 +35,11 @@ function Products() {
                         </tr>
                     </thead>
                     <tbody>
-                        {load}
+
                         {burger.map((e, i) => {
                             return <tr key={i}>
                                 <th scope="row">{i + 1}</th>
-                                <td>   <img src={`http://localhost:8090/${e.image}`} className='rounded-circle w-25'></img></td>
+                                <td>   <img src={`http://localhost:8090/${e.image}`} className='rounded-circle' style={{ width: "100px", height: "100px" }}></img></td>
                                 <td>{e.name}</td>
                                 <td>{e.category}</td>
                                 <td><Link to={`/updateproduct/${e._id}`}><button className='btn btn-primary'>UPDATE</button></Link></td>

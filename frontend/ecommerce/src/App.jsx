@@ -30,32 +30,34 @@ function App() {
   return (
     <>
 
-      <Provider store={store}>
+      <div className='body'>
+        <Provider store={store}>
 
-        <BrowserRouter >
-          <Navbar></Navbar>
-          <Routes>
+          <BrowserRouter >
+            <Navbar></Navbar>
+            <Routes>
 
-            <Route path='/' element={<Home></Home>}></Route>
-            <Route path='/login' element={<Signup></Signup>}></Route>
-            <Route path='/product' element={<Products></Products>}></Route>
-            <Route path='/addproduct' element={<Addproducts></Addproducts>}></Route>
-            <Route path='/updateproduct/:id' element={<Updateproduct></Updateproduct>}></Route>
-            <Route path='/users' element={<Users></Users>}></Route>
-            <Route path='/cart' element={<Cart></Cart>}></Route>
-            <Route path='/updateprofile/:id' element={<UpdateProfile></UpdateProfile>}></Route>
-            <Route path='/profile/:id' element={<Profile></Profile>}></Route>
-            <Route path='/updateusers/:id' element={<Updateusers></Updateusers>}></Route>
+              <Route path='/' element={<Home></Home>}></Route>
+              <Route path='/login' element={<Signup></Signup>}></Route>
+              <Route path='/product' element={<Products></Products>}></Route>
+              <Route path='/addproduct' element={<Addproducts></Addproducts>}></Route>
+              <Route path='/updateproduct/:id' element={<Updateproduct></Updateproduct>}></Route>
+              <Route path='/users' element={<Users></Users>}></Route>
+              <Route path='/cart' element={<Cart></Cart>}></Route>
+              <Route path='/updateprofile/:id' element={<UpdateProfile></UpdateProfile>}></Route>
+              <Route path='/profile/:id' element={<Profile></Profile>}></Route>
+              <Route path='/updateusers/:id' element={<Updateusers></Updateusers>}></Route>
 
 
 
-            <Route path='/admin' element={<Admin></Admin>}></Route>
-            <Route path='/register' element={<Register></Register>}></Route>
+              <Route path='/admin' element={<Admin></Admin>}></Route>
+              <Route path='/register' element={<Register></Register>}></Route>
 
-          </Routes>
-        </BrowserRouter>
-      </Provider>
+            </Routes>
+          </BrowserRouter>
+        </Provider>
 
+      </div>
 
 
 

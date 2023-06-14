@@ -53,11 +53,9 @@ export const cartSlice = createSlice({
                     userID == action.payload.user.
                         userID && e.variant == action.payload.user.variant)
                 console.log(data)
-                data.quantity = Number(action.payload.user.quantity)
-                data.price = action.payload.user.price
-                state.total += Number(data.price),
+                data.quantity = Number(action.payload.user.quantity) + data.quantity
 
-                    state.status = ""
+                state.status = ""
 
             }
 
@@ -128,6 +126,7 @@ export const cartSlice = createSlice({
 
                         }
                     })
+                    state.status = ""
 
 
                 }
@@ -145,6 +144,7 @@ export const cartSlice = createSlice({
 
 
                 }
+                state.status = ""
                 state.total = state.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
 
 

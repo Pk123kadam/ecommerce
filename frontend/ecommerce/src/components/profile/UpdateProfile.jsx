@@ -11,6 +11,7 @@ function UpdateProfile() {
     const dispatch = useDispatch()
     const text = useSelector((state) => state.login.updatestatus)
     console.log(text)
+    const [image, setimage] = useState(null);
     const [data, Setdata] = useState({
 
     })
@@ -44,7 +45,12 @@ function UpdateProfile() {
 
     function handlesubmit(e) {
         e.preventDefault()
-        dispatch(updateuser({ id: id, data }))
+        const formData = new FormData();
+        formData.append('username', data.username);
+        formData.append('email', data.email);
+        formData.append('image', image);
+
+        dispatch(updateuser({ formData, id: id }))
 
 
 
@@ -56,10 +62,13 @@ function UpdateProfile() {
 
 
     }
+    function handlefilechange(event) {
+        setimage(event.target.files[0]);
+    }
     return (
         <div>
             <div className='w-50 mx-auto p-5' style={{ boxShadow: "0 0 3px", marginTop: "90px" }}>
-                <form onSubmit={handlesubmit}>
+                <form onSubmit={handlesubmit} method="put" enctype="multipart/form-data">
                     <p className={text == "Updated" ? "text-primary" : "text-danger"}>{text}</p>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Username</label>
@@ -70,6 +79,10 @@ function UpdateProfile() {
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handlechange} name='email' value={data.email} />
 
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">image</label>
+                        <input type="file" class="form-control" id="exampleInputPassword1" name='image' onChange={handlefilechange} />
                     </div>
 
 

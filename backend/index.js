@@ -25,6 +25,8 @@ app.use(bodyParser.json())
 app.use(helmet())
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
 app.use(express.static("product_images"))
+app.use(express.static("user_images"))
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(router)
