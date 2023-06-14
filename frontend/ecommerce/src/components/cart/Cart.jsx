@@ -29,7 +29,7 @@ function Cart() {
         cond = <div className='container'><div className='row'><div className='col-12'>
             <div className='text-center p-3'> <h3>Your Cart Is Empty!! </h3>
                 <img src='cart.webp' className='w-100' style={{ height: "700px" }}></img>
-                <Link to="/"><button className='btn'>CLICK HERE TO CHOOSE SOME DELICIOUS PIZZA!!</button></Link>
+                <Link to="/home"><button className='btn'>CLICK HERE TO CHOOSE SOME DELICIOUS PIZZA!!</button></Link>
             </div></div></div></div>
     }
 

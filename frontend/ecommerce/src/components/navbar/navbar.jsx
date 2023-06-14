@@ -152,20 +152,20 @@ function Navbar() {
                                 <button class="btn btn-outline-success btn_hover" type='submit'>Search</button>
 
                             </form>
-                            <Link to="/"><img src='pizzalogo.png' style={{ width: "300px", height: "50px" }} className='mt-2'></img></Link>
+                            <Link to="/home"><img src='pizzalogo.png' style={{ width: "300px", height: "50px" }} className='mt-2'></img></Link>
                             <ul class="navbar-nav  mb-2 mb-lg-0 gap-3 align-items-center">
                                 <li class="nav-item">
-                                    <Link to="/admin"><button className='btn '>ADMIN</button></Link>
+                                    <Link to="/"><button className='btn '>ADMIN</button></Link>
                                 </li>
                                 {/* <li class="nav-item">
                                     {update_profile.image ? <img src={`http://localhost:8090/${update_profile.image}`} className='w-25 h-25'></img> : null}
                                 </li> */}
 
+                                <li class="nav-item">
+                                    {update_profile.image ? <img src={`http://localhost:8090/${update_profile.image}`} className=' rounded-circle' style={{ width: "50px", height: "50px" }}></img> : null}
 
 
-
-
-                                {update_profile.username ? <li class="nav-item"> <Link to={`/profile/${profile._id}`}>  {update_profile.image ? <img src={`http://localhost:8090/${update_profile.image}`} className=' rounded-circle' style={{ width: "60px", height: "60px" }}></img> : null} <button className='btn '> {update_profile.username} </button></Link>  </li> : null}
+                                    {update_profile.username ? <Link to={`/profile/${profile._id}`}><button className='btn '> {update_profile.username} </button></Link> : null}</li>
 
 
 
@@ -182,7 +182,7 @@ function Navbar() {
                                     <img src='pizza.png' className='img_hover' style={{ width: "50px", height: "50px" }} onClick={() => {
                                         navigate("/cart")
                                     }}></img>
-                                    <div className='rounded text-light px-2' style={{ position: "absolute", bottom: "-10px", left: "-10px", backgroundColor: "#ff4d00" }}>{cart.reduce((acc, cr) => acc + cr.quantity, 0)}</div>
+                                    <div className='rounded-circle  text-light px-2' style={{ position: "absolute", bottom: "-10px", left: "-10px", backgroundColor: "#ff4d00 " }}>{cart.reduce((acc, cr) => acc + cr.quantity, 0)}</div>
                                 </li>
 
 

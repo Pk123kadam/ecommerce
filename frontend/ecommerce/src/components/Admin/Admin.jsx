@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Dashboard from '../dashboard/Dashboard'
+
 
 
 function Admin() {
@@ -34,14 +36,9 @@ function Admin() {
 
 
     return (
-        <div>
-            <ul>
-                <li>   <Link to="/product"><button className='btn'>Products</button></Link></li>
-                <li>   <Link to="/users"><button className='btn'>Users</button></Link></li>
-            </ul>
+        <>
+            <Dashboard></Dashboard></>
 
-
-        </div>
     )
 }
 

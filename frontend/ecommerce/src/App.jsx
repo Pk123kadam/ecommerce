@@ -21,6 +21,7 @@ import UpdateProfile from './components/profile/UpdateProfile'
 import Cart from './components/cart/Cart'
 import Products from './components/Admin/Products'
 import Updateproduct from './components/Admin/Updateproduct'
+import Dashboard from './components/dashboard/Dashboard'
 
 
 
@@ -35,14 +36,15 @@ function App() {
 
           <BrowserRouter >
             <Navbar></Navbar>
+
             <Routes>
 
-              <Route path='/' element={<Home></Home>}></Route>
+              <Route path='/home' element={<Home></Home>}></Route>
               <Route path='/login' element={<Signup></Signup>}></Route>
-              <Route path='/product' element={<Products></Products>}></Route>
+
               <Route path='/addproduct' element={<Addproducts></Addproducts>}></Route>
               <Route path='/updateproduct/:id' element={<Updateproduct></Updateproduct>}></Route>
-              <Route path='/users' element={<Users></Users>}></Route>
+
               <Route path='/cart' element={<Cart></Cart>}></Route>
               <Route path='/updateprofile/:id' element={<UpdateProfile></UpdateProfile>}></Route>
               <Route path='/profile/:id' element={<Profile></Profile>}></Route>
@@ -50,7 +52,14 @@ function App() {
 
 
 
-              <Route path='/admin' element={<Admin></Admin>}></Route>
+              <Route path='/' element={<Admin></Admin>}>
+                <Route path='/product' element={<Products></Products>}></Route>
+                <Route path='/users' element={<Users></Users>}></Route>
+
+
+
+
+              </Route>
               <Route path='/register' element={<Register></Register>}></Route>
 
             </Routes>
