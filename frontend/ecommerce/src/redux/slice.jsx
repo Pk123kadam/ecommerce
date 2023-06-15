@@ -58,6 +58,7 @@ export const loginSlice = createSlice({
 
 
                 state.user = {}
+                state.loginstatus = ""
 
 
 
@@ -91,9 +92,11 @@ export const loginSlice = createSlice({
                 if (action.payload.message == "unauthorized") {
                     console.log("un")
                     state.updateuser = {}
+                    state.loginstatus = ""
 
                 } else {
                     state.updateuser = { ...action.payload.user }
+
 
                 }
 
@@ -116,9 +119,11 @@ export const loginSlice = createSlice({
                 state.updateuser = {}
 
 
+
             })
 
             .addCase(loginuser.pending, (state, action) => {
+                state.loginstatus = "pending"
 
 
             })

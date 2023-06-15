@@ -14,7 +14,9 @@ import Cartrouter from "./routes/cart"
 
 import helmet from "helmet"
 import orderRoute from "./routes/order"
-mongoose.connect(process.env.MONGO).then(() => { console.log("connected to database") })
+mongoose.connect(process.env.MONGO).then(() => { console.log("connected to database") }).catch((err) => {
+    console.log(err)
+})
 const app = express()
 var corsOptions = {
     origin: 'http://127.0.0.1:5173',
