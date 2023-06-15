@@ -1,32 +1,35 @@
 import mongoose from "mongoose";
-import boolean from "webidl-conversions"
-const OrderSchema = new mongoose.Schema({
-    userId: {
-        type: String, required: true,
-    },
-    products: [
-        {
-            productId: {
-                type: "String", required: true
-            },
-            quantity: {
-                type: Number,
-                default: 1
-            },
 
-        }
-    ],
-    amount: {
-        type: Number, required: true
+const orderSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
     },
-    address: {
-        type: Object, required: true
+    email: {
+        type: String,
+        required: true
     },
-    status: {
-        type: String, default: "pending"
+    userId: {
+        type: String,
+        required: true
+    },
+    orderItems: [],
+    shippingAddress: {
+        type: Object,
+    },
+    orderAmount: {
+        type: Number,
+        required: true
+    },
+    isDelivered: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    transactionId: {
+        type: String,
+        required: true
     }
 
-
 }, { timestamps: true })
-
-export default mongoose.model("Order", OrderSchema)
+export default mongoose.model('orders', orderSchema);

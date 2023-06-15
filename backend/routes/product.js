@@ -23,7 +23,7 @@ Productrouter.post("/addProduct", valiTokenAdmin, async (req, res) => {
 
             console.log(req.file.filename)
             const Image = req.file.filename
-            const { name, description, category, small, large, array } = req.body
+            const { name, description, category, small, large, array, stock } = req.body
 
             console.log(array)
 
@@ -33,6 +33,7 @@ Productrouter.post("/addProduct", valiTokenAdmin, async (req, res) => {
                     small,
                     large
                 },
+                stock,
                 variants: array
             })
             const save = add.save()
@@ -75,7 +76,7 @@ Productrouter.put("/updateProduct/:id", valiTokenAdmin, async (req, res) => {
                     message: err.message
                 })
             }
-            const { name, description, category, small, large, array } = req.body
+            const { name, description, category, small, large, array, stock } = req.body
             const prev_data = await Product.findOne({ _id: req.params.id })
             let img;
             if (req.file) {
@@ -94,8 +95,10 @@ Productrouter.put("/updateProduct/:id", valiTokenAdmin, async (req, res) => {
                 $set: {
                     image: img, name, description, category, prices: {
                         small,
-                        large
+                        large,
+
                     },
+                    stock,
                     variants: array
 
 

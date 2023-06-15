@@ -22,6 +22,7 @@ import Cart from './components/cart/Cart'
 import Products from './components/Admin/Products'
 import Updateproduct from './components/Admin/Updateproduct'
 import Dashboard from './components/dashboard/Dashboard'
+import OrderAdmin from './components/Admin/OrderAdmin'
 
 
 
@@ -55,6 +56,7 @@ function App() {
               <Route path='/' element={<Admin></Admin>}>
                 <Route path='/product' element={<Products></Products>}></Route>
                 <Route path='/users' element={<Users></Users>}></Route>
+                <Route path='/order' element={<OrderAdmin></OrderAdmin>}></Route>
 
 
 

@@ -11,8 +11,9 @@ import router from "./routes/auth"
 import Userrouter from "./routes/user"
 import Productrouter from "./routes/product"
 import Cartrouter from "./routes/cart"
-import Orderrouter from "./routes/order"
+
 import helmet from "helmet"
+import orderRoute from "./routes/order"
 mongoose.connect(process.env.MONGO).then(() => { console.log("connected to database") })
 const app = express()
 var corsOptions = {
@@ -33,7 +34,8 @@ app.use(router)
 app.use(Userrouter)
 app.use(Productrouter)
 app.use(Cartrouter)
-app.use(Orderrouter)
+app.use(orderRoute)
+
 
 app.listen(process.env.PORT || 3001, () => {
     console.log(`connected to port ${process.env.PORT}`)

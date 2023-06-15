@@ -11,7 +11,7 @@ import axios from "axios"
 const initialState = {
     cart: [],
     status: '',
-    total: 0,
+
     // price: 0,
 
 
@@ -66,7 +66,7 @@ export const cartSlice = createSlice({
 
 
                 state.cart.push(action.payload.user),
-                    state.total += Number(action.payload.userprice),
+
 
 
 
@@ -81,19 +81,32 @@ export const cartSlice = createSlice({
 
 
                 state.cart = state.cart.filter((e) => e._id !== action.payload._id)
-                state.total -= Number(action.payload.price)
 
 
 
 
 
                 state.status = ""
-            }).addCase(getcart.fulfilled, (state, action) => {
+            })
+            .addCase(cartDel.fulfilled, (state, action) => {
+                console.log(action.payload)
+
+
+
+                state.cart = state.cart.filter((e) => e.userID !== action.payload)
+
+
+
+
+
+                state.status = ""
+            })
+            .addCase(getcart.fulfilled, (state, action) => {
                 console.log(action.payload)
 
                 if (action.payload.message == "unauthorized") {
                     state.cart = []
-                    state.total = 0
+
                     state.status = action.payload.message
 
 
@@ -101,7 +114,7 @@ export const cartSlice = createSlice({
                     // state.price = action.payload.cart[0].price / action.payload.cart[0].quantity
                     state.cart = action.payload.cart
                     state.status = ""
-                    state.total = action.payload.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
+
 
                 }
 
@@ -145,7 +158,6 @@ export const cartSlice = createSlice({
 
                 }
                 state.status = ""
-                state.total = state.cart.reduce((acc, cr) => acc + Number(cr.price), 0)
 
 
 
@@ -233,6 +245,19 @@ export const cartDelete = createAsyncThunk(
         console.log(thunkAPI)
 
         const data = await axios.delete("http://localhost:8090/cartDelete/" + thunkAPI._id, { withCredentials: true })
+        console.log(data)
+        return thunkAPI
+
+
+
+    }
+)
+export const cartDel = createAsyncThunk(
+    'cart/deleteuser',
+    async (thunkAPI) => {
+        console.log(thunkAPI)
+
+        const data = await axios.delete("http://localhost:8090/cartdel/" + thunkAPI, { withCredentials: true })
         console.log(data)
         return thunkAPI
 

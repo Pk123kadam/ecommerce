@@ -37,6 +37,7 @@ function Addproducts() {
         formData.append('name', data.name);
         formData.append('small', Number(data.small));
         formData.append('large', Number(data.large));
+        formData.append('stock', Number(data.stock));
 
 
         formData.append('category', data.category);
@@ -73,7 +74,8 @@ function Addproducts() {
             description: "",
             category: "",
             small: "",
-            large: ""
+            large: "",
+            stock: ""
         })
 
 
@@ -124,6 +126,10 @@ function Addproducts() {
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">large</label>
                     <input type="number" class="form-control" id="exampleInputPassword1" name='large' value={data.large} onChange={handlechange} />
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Stock</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" name='stock' value={data.stock} onChange={handlechange} />
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Variants</label>

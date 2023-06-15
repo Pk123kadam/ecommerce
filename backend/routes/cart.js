@@ -9,6 +9,7 @@ import { valiToken, valiTokenAdmin, vali } from "./verifytoken"
 Cartrouter.post("/addCart", vali, async (req, res) => {
     try {
         console.log(req.body)
+
         let update;
         let save;
         let add;
@@ -113,6 +114,29 @@ Cartrouter.put("/updateCart/:id", vali, async (req, res) => {
 Cartrouter.delete("/cartDelete/:id", vali, async (req, res) => {
     try {
         const del = await Cart.deleteOne({ _id: req.params.id })
+
+
+        if (del) {
+            return res.status(201).json({
+                user: del,
+                message: "successfully deleted"
+            })
+        } else {
+            return res.status(400).json({
+                message: "something went wrong"
+            })
+        }
+
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+})
+Cartrouter.delete("/cartdel/:id", vali, async (req, res) => {
+    try {
+        const del = await Cart.deleteMany({ userID: req.params.id })
 
 
         if (del) {

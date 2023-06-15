@@ -1,185 +1,132 @@
-import express from "express"
-const Orderrouter = express.Router()
-import Order from "../models/Order"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-import { valiToken, valiTokenAdmin } from "./verifytoken"
+import express from 'express';
+const orderRoute = express.Router();
+
+import orderModel from '../models/Order';
+
+// IMPORTING STRIPE AND SECRET KEY----------
+import Stripe from 'stripe';
+const stripe = new Stripe('sk_test_51KtVxhSAIlAmsg9ER2usF0pyzuLnlfKvPkdDLN1melVKcWAqbfgmF0qqmU3X0oMs5Sv9SnoHt2LhJu3x43JYyudQ00yIyjAl6r');
+
+import { v4 as uuidv4 } from 'uuid';
 
 
-Orderrouter.post("/addOrder", valiToken, async (req, res) => {
+orderRoute.post('/placeOrder', async (req, res) => {
+
+    const { token, grandTotal, currentUser, cartItems } = req.body;
+
     try {
-        const add = new Order({
-            ...req.body
-
+        const customer = await stripe.customers.create({
+            email: token.email,
+            source: token.id
         })
-        const save = add.save()
+        console.log(customer);
+
+        const payment = await stripe.paymentIntents.create({
+            customer: customer.id,
+            amount: grandTotal * 100,
+            currency: 'INR',
+            receipt_email: token.email,
+            payment_method_types: ['card'],
+        }, {
+            idempotencyKey: uuidv4()
+        })
+        console.log(payment);
+
+        if (payment) {
+            const newOrder = new orderModel({
+                name: currentUser.username,
+                email: currentUser.email,
+                userId: currentUser._id,
+                orderItems: cartItems,
+                shippingAddress: {
+                    street: token.card.address_line_1,
+                    city: token.card.address_city,
+                    country: token.card.address_country,
+                    pincode: token.card.address_zip
+                },
+                orderAmount: grandTotal,
+                transactionId: payment.id
+            })
+            newOrder.save();
+            console.log(newOrder);
 
 
-
-
-        if (save) {
-            return res.status(201).json({
-                order: add,
-                message: "successfully updated"
+            res.status(200).json({
+                data: payment,
+                message: "payment successfull"
             })
         } else {
-            return res.status(400).json({
-                message: "something went wrong"
+            res.status(400).json({
+                message: 'Something went wrong. Please retry again.'
             })
         }
 
-
-    } catch (err) {
-        res.status(500).json({
-            message: err.message
+    } catch (error) {
+        return res.status(400).json({
+            message: 'Something went wrong. Please retry again.' + error
         })
     }
 })
 
-Orderrouter.patch("/updateOrder/:id", valiTokenAdmin, async (req, res) => {
+
+
+
+
+
+orderRoute.get('/get-all-orders', async (req, res) => {
+
     try {
-
-
-        const update = await Order.updateOne({ _id: req.params.id }, { $set: { ...req.body } })
-
-
-
-        if (update) {
-            return res.status(201).json({
-                order: update,
-                message: "successfully updated"
-            })
-        } else {
-            return res.status(400).json({
-                message: "something went wrong"
-            })
-        }
-
-
-    } catch (err) {
-        res.status(500).json({
-            message: err.message
+        const orders = await orderModel.find()
+        res.send(orders);
+    } catch (error) {
+        return res.status(400).json({
+            message: 'something went wrong' + error
         })
     }
+
 })
-Orderrouter.delete("/OrderDelete/:id", valiTokenAdmin, async (req, res) => {
+orderRoute.delete('/delete-all-orders/:id', async (req, res) => {
+
     try {
-        const del = await Order.deleteOne({ _id: req.params.id })
-
-
-        if (del) {
-            return res.status(201).json({
-                order: update,
-                message: "successfully deleted"
-            })
-        } else {
-            return res.status(400).json({
-                message: "something went wrong"
-            })
-        }
-
-
-    } catch (err) {
-        res.status(500).json({
-            message: err.message
+        const orders = await orderModel.deleteMany({ userId: req.params.id })
+        res.send(orders);
+    } catch (error) {
+        return res.status(400).json({
+            message: 'something went wrong' + error
         })
     }
+
 })
-//get order
+orderRoute.post('/get-user-orders', async (req, res) => {
+    const { userId } = req.body;
 
-Orderrouter.get("/Order/:id", valiToken, async (req, res) => {
     try {
-        const data = await Order.findOne({ _id: req.params.id })
-
-
-        if (data) {
-            return res.status(200).json({
-                order: data,
-                message: "successfully fetched"
-            })
-        } else {
-            return res.status(400).json({
-                message: "something went wrong"
-            })
-        }
-
-
-    } catch (err) {
-        res.status(500).json({
-            message: err.message
+        const orders = await orderModel.find({ userId: userId }).sort({ _id: -1 })
+        res.send(orders);
+    } catch (error) {
+        return res.status(400).json({
+            message: 'something went wrong' + error
         })
     }
+
 })
 
-//get all order
 
+orderRoute.post('/deliver-order', async (req, res) => {
 
-Orderrouter.get("/orders", valiTokenAdmin, async (req, res) => {
+    const orderId = req.body.orderId;
     try {
-
-        const data = await Order.find({
-
-        })
-
-
-        if (data) {
-            return res.status(200).json({
-                order: data,
-                message: "successfully fetched"
-            })
-        } else {
-            return res.status(400).json({
-                message: "something went wrong"
-            })
-        }
-
-
-    } catch (err) {
-        res.status(500).json({
-            message: err.message
+        const order = await orderModel.findOne({ _id: orderId })
+        order.isDelivered = true
+        await order.save()
+        res.send("Order delivered successfully");
+    } catch (error) {
+        return res.status(400).json({
+            message: 'something went wrong' + error
         })
     }
+
 })
 
-// get user stats
 
-// Cartrouter.get("/users/stats", valiTokenAdmin, async (req, res) => {
-//     try {
-//         const date = new Date()
-//         console.log(date)
-//         const lastyear = new Date(date.setFullYear(date.getFullYear() - 1))
-//         console.log(lastyear)
-//         const data = await User.aggregate([
-//             { $match: { createdAt: { $gte: lastyear } } },
-//             {
-//                 $project: {
-//                     month: { $month: "$createdAt" }
-//                 },
-//             },
-//             {
-//                 $group: {
-//                     _id: "$month",
-//                     total: { $sum: 1 }
-//                 }
-//             }
-//         ])
-//         res.status(200).json(data)
-
-
-
-//     } catch (err) {
-//         res.status(500).json({
-//             message: err.message
-//         })
-//     }
-// })
-
-
-
-
-
-
-
-
-export default Orderrouter
-
+export default orderRoute;

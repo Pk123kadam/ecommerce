@@ -38,11 +38,11 @@ function CartDispaly({ data }) {
                 <div className='d-md-flex gap-3'>
                     <div><h5>{data.name}</h5>
 
-                        <h6>QUANTITY: <button className='btn btn-danger' onClick={() => {
+                        <h6>QUANTITY: <button className='btn btn-danger rounded-circle' onClick={() => {
                             dispatch(updatecart({ message: "decrement", data: data }))
-                        }}>-</button> {data.quantity}  <button className='btn btn-primary' onClick={() => {
+                        }}>-</button> {data.quantity} {data.quantity >= data.stock ? <button className='btn btn-danger'> out of stock </button> : <button className='btn btn-primary  rounded-circle' onClick={() => {
                             dispatch(updatecart({ message: "increment", data: data }))
-                        }}> + </button></h6>
+                        }}> + </button>}</h6>
                         <h5>PRICE: {data.price}</h5></div>
 
                     <div> <img src={"http://localhost:8090/" + data.thumbnail} style={{ width: "200px", height: "200px" }}></img></div>

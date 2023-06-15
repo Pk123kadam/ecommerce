@@ -18,6 +18,7 @@ function Home() {
 
     const dispatch = useDispatch()
     const data = useSelector((state) => state.burger)
+
     console.log(data)
     console.log(data.filtered)
 
@@ -28,9 +29,9 @@ function Home() {
     }
     return (
         <>
-            <div className='container'>
+            {load ? load : <div className='container'>
                 <div className='row row-cols-lg-3 row-cols-md-2 row-cols-1 gy-3'>
-                    {load}
+
                     {
                         data.filtered.map((datas, i) => {
                             return (<DisplayProduct data={datas} index={i}></DisplayProduct>)
@@ -38,7 +39,7 @@ function Home() {
                     }
                 </div>
 
-            </div>
+            </div>}
         </>
     )
     // const [Variant, setVariant] = useState("smallPrice")

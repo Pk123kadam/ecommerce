@@ -5,6 +5,7 @@ import { getcart } from '../../redux/Cart'
 import CartDispaly from './CartDispaly'
 import Loader from '../loader/Loader'
 import { Link } from 'react-router-dom'
+import CheckoutComponent from '../checkoutcomponent/Checkout'
 
 
 
@@ -61,9 +62,9 @@ function Cart() {
                             <h1>  Summary</h1>
 
                             <div class="card-body">
-                                Total Amount:<h1>{total}</h1>
+                                Total Amount:<h1>{cart.reduce((acc, cr) => acc + Number(cr.price), 0)}</h1>
                                 Total Quantity:<h1>{cart.reduce((acc, cr) => acc + Number(cr.quantity), 0)}</h1>
-                                <button className='btn btn-primary'>Checkout</button>
+                                <CheckoutComponent grandTotal={cart.reduce((acc, cr) => acc + Number(cr.price), 0)} currentUser={user} cartItems={cart}></CheckoutComponent>
 
                             </div>
                         </div>

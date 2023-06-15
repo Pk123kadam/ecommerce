@@ -6,10 +6,20 @@ import { addcart, getcart } from '../../redux/Cart'
 import { Link } from 'react-router-dom'
 
 function DisplayProduct({ data, index }) {
+    let p;
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.login)
     const { cart, status } = useSelector((state) => state.cart)
+    const [q, setq] = useState(null)
+    console.log(q)
+    const pk = cart.find((e) => e.id == q)
+    if (pk) {
+        p = pk.quantity
+
+    }
+
     console.log(cart)
+
     console.log(status)
 
     const [Variant, setVariant] = useState(data.variants[0])
@@ -19,7 +29,12 @@ function DisplayProduct({ data, index }) {
     useEffect(() => {
         console.log(user._id)
         dispatch(getcart(user._id))
+        setq(index + 1)
+
     }, [])
+
+
+
 
 
     return (
@@ -64,7 +79,7 @@ function DisplayProduct({ data, index }) {
                         <div style={{ width: "40%" }} className='mb-4'>
                             <p>Quantity:</p>
                             <select className='form-control' value={quantity} onChange={(e) => { setQuantity(e.target.value) }}>
-                                {[...Array(10).keys()].map((x, i) => {
+                                {[...Array(12).keys()].map((x, i) => {
 
                                     return <option value={i + 1}> {i + 1} </option>
                                 })}
@@ -73,8 +88,8 @@ function DisplayProduct({ data, index }) {
                         </div>
                         <h4>  prices:{data.prices[0][Variant] * quantity}</h4>
                         {/* <h6>{e.prices.map((e) => e)}</h6> */}
-                        {status == "unauthorized" ? <div className='text-center'><Link to="/login"><button className='btn' style={{ backgroundColor: "#ff4d00", color: "white" }}>ADD TO CART</button></Link></div> : <div className='text-center'><button className='btn' style={{ backgroundColor: "#ff4d00", color: "white" }} onClick={() => {
-                            dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, variant: Variant, quantity: quantity, userID: user._id, thumbnail: data.image, id: index + 1, single: Number(data.prices[0][Variant]) }))
+                        {status == "unauthorized" ? <div className='text-center'><Link to="/login"><button className='btn' style={{ backgroundColor: "#ff4d00", color: "white" }}>ADD TO CART</button></Link></div> : quantity > data.stock || p >= data.stock ? <button className='btn' style={{ backgroundColor: "red", color: "white" }}>OUT OF STOCK</button> : <div className='text-center'><button className='btn' style={{ backgroundColor: "#ff4d00", color: "white" }} onClick={() => {
+                            dispatch(addcart({ name: data.name, price: data.prices[0][Variant] * quantity, variant: Variant, quantity: quantity, userID: user._id, stock: data.stock, thumbnail: data.image, id: index + 1, single: Number(data.prices[0][Variant]) }))
 
 
                         }}>ADD PIZZA</button></div>}

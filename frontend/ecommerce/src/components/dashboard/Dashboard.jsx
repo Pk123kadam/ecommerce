@@ -36,6 +36,18 @@ function Dashboard() {
 
 
                     </li>
+                    <li>
+
+
+                        <a href="/order">
+                            <i class="fa fa-money fa-2x"></i>
+                            <span class="nav-text">
+                                Orders
+                            </span>
+                        </a>
+
+
+                    </li>
 
                 </ul>
 

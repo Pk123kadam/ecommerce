@@ -30,6 +30,7 @@ function Products() {
                             <th scope="col">image   </th>
                             <th scope="col">name</th>
                             <th scope="col">category</th>
+                            <th scope="col">stock</th>
                             <th scope="col">actions</th>
 
                         </tr>
@@ -42,6 +43,7 @@ function Products() {
                                 <td>   <img src={`http://localhost:8090/${e.image}`} className='rounded-circle' style={{ width: "100px", height: "100px" }}></img></td>
                                 <td>{e.name}</td>
                                 <td>{e.category}</td>
+                                <td>{e.stock}</td>
                                 <td><Link to={`/updateproduct/${e._id}`}><button className='btn btn-primary'>UPDATE</button></Link></td>
                                 <td><button className='btn btn-danger' onClick={() => dispatch(delburger(e._id))
                                 }>DELETE</button></td>
