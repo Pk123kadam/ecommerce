@@ -46,12 +46,7 @@ export const orderSlice = createSlice({
 
 
             })
-            .addCase(orderdelete.fulfilled, (state, action) => {
-                state.order = state.order.filter((e) => e.userId !== action.payload)
-                state.load = false
 
-
-            })
             .addCase(deliver.fulfilled, (state, action) => {
                 const status = state.order.find((e) => e._id == action.payload.orderId)
                 status.isDelivered = true
@@ -153,19 +148,7 @@ export const orderget = createAsyncThunk(
 
     }
 )
-export const orderdelete = createAsyncThunk(
-    'orders/delete',
 
-    async (thunkAPI) => {
-        console.log(thunkAPI)
-        const data = await axios.delete("http://localhost:8090/delete-all-orders/" + thunkAPI, { withCredentials: true })
-        console.log(data)
-
-        return thunkAPI
-        // return data.data
-
-    }
-)
 
 
 

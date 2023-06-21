@@ -40,7 +40,7 @@ function CartDispaly({ data }) {
 
                         <h6>QUANTITY: <button className='btn btn-danger rounded-circle' onClick={() => {
                             dispatch(updatecart({ message: "decrement", data: data }))
-                        }}>-</button> {data.quantity} {data.quantity >= data.stock ? <button className='btn btn-danger'> out of stock </button> : <button className='btn btn-primary  rounded-circle' onClick={() => {
+                        }}>-</button> {data.quantity} {data.quantity >= 10 ? <button className='btn btn-danger'> max limit </button> : <button className='btn btn-primary  rounded-circle' onClick={() => {
                             dispatch(updatecart({ message: "increment", data: data }))
                         }}> + </button>}</h6>
                         <h5>PRICE: {data.price}</h5></div>

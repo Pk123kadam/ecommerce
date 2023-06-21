@@ -85,18 +85,7 @@ orderRoute.get('/get-all-orders', async (req, res) => {
     }
 
 })
-orderRoute.delete('/delete-all-orders/:id', async (req, res) => {
 
-    try {
-        const orders = await orderModel.deleteMany({ userId: req.params.id })
-        res.send(orders);
-    } catch (error) {
-        return res.status(400).json({
-            message: 'something went wrong' + error
-        })
-    }
-
-})
 orderRoute.post('/get-user-orders', async (req, res) => {
     const { userId } = req.body;
 

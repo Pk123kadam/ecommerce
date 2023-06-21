@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { cartDel } from '../../redux/Cart'
-import { orderdelete, ordergetuser } from '../../redux/Order'
+import { ordergetuser } from '../../redux/Order'
 
 function Profile() {
     const navigate = useNavigate()
@@ -14,13 +14,14 @@ function Profile() {
     const { id } = useParams()
     console.log(id)
     const dispatch = useDispatch()
+    // useEffect(() => {
+
+
+
+
+    // }, [])
     useEffect(() => {
-
-
-        dispatch(getuser(id))
-
-    }, [])
-    useEffect(() => {
+        dispatch(getuser(id)),
         dispatch(ordergetuser({ userId: id }))
 
     }, [])
@@ -54,7 +55,7 @@ function Profile() {
                                     dispatch(deleteuser(profile._id),
                                         dispatch(logoutuser()),
                                         dispatch(cartDel(profile._id)),
-                                        dispatch(orderdelete(profile._id)),
+
                                         navigate("/home")
 
 
@@ -87,7 +88,8 @@ function Profile() {
 
                                                 <td>
                                                     Order Amount : {e.orderAmount}<br></br>
-                                                    Transaction ID : {e.transactionId}
+                                                    Transaction ID : {e.transactionId}<br></br>
+                                                    status : {e.isDelivered ? <span className='text-success'>delivered</span> : <span className='text-danger'>not delivered</span>}
 
                                                 </td>
 

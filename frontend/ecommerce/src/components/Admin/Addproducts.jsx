@@ -127,10 +127,7 @@ function Addproducts() {
                     <label for="exampleInputPassword1" class="form-label">large</label>
                     <input type="number" class="form-control" id="exampleInputPassword1" name='large' value={data.large} onChange={handlechange} />
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Stock</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" name='stock' value={data.stock} onChange={handlechange} />
-                </div>
+
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Variants</label>
                     <input type="text" class="form-control" value={arrayValues.join(', ')} onChange={handleInputChange} />

@@ -22,7 +22,7 @@ function Users() {
 
     }
     return (
-        <div>
+        <div className='container'>
             {load}
             <p className={deletestatus == "Deleted" ? "text-primary" : "text-danger"}>{deletestatus}</p>
             <div className='table-responsive'>

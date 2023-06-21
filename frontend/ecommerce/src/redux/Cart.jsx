@@ -48,7 +48,7 @@ export const cartSlice = createSlice({
             else if (state.cart.find((e) => e.id == action.payload.user.id && e.
                 userID == action.payload.user.
                     userID && e.variant == action.payload.user.variant)) {
-                console.log("already exited")
+
                 const data = state.cart.find((e) => e.id == action.payload.user.id && e.
                     userID == action.payload.user.
                         userID && e.variant == action.payload.user.variant)

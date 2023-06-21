@@ -55,13 +55,7 @@ export const loginSlice = createSlice({
             console.log(action.payload)
             state.loginstatus = action.payload.status
             if (action.payload.message == "unauthorized") {
-
-
                 state.user = {}
-
-
-
-
             } else {
                 state.user = action.payload.user
 

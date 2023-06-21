@@ -12,7 +12,7 @@ function OrderAdmin() {
     const { order, load } = useSelector((state) => state.order)
     console.log(order)
     return (
-        <div>
+        <div className='container'>
             {load ? <Loader></Loader> :
                 <div className='table-responsive'>
 
